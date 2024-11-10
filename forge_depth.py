@@ -105,7 +105,7 @@ def preprocess_image(image_path):
     image = image.unsqueeze(0)  # Add batch dimension
     return image
 
-image_path = "./test_img2.jpg"
+image_path = "./test/test_image9.jpg"
 input_image = preprocess_image(image_path)
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
