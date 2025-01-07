@@ -173,12 +173,35 @@ def create_rgbd_image(rgb_image, depth_image):
 
 st.title("Depth Estimation with 3D Visualization")
 
+def depth_to_pointcloud(depth_map, color_image, fx, fy, cx, cy):
+    
+    rows, cols = depth_map.shape
+    c, r = np.meshgrid(np.arange(cols), np.arange(rows), sparse=True)
+    
+    z = depth_map
+    x = (c - cx) * z / fx
+    y = (r - cy) * z / fy
+    
+    valid = z > 0
+    
+    points = np.stack([x[valid], y[valid], z[valid]], axis=-1)
+    colors = color_image[valid]
+    
+    pcd = o3d.geometry.PointCloud()
+    pcd.points = o3d.utility.Vector3dVector(points)
+    pcd.colors = o3d.utility.Vector3dVector(colors / 255.0)
+    
+    return pcd
+
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
 if uploaded_file is not None:
     input_image = Image.open(uploaded_file)
     st.image(input_image, caption="Uploaded Image", use_column_width=True)
+    
+    img = np.array(input_image)    
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-    depth_img, normals_img = estimate_depth_normals(uploaded_file)  
+    depth_img, normals_img = estimate_depth_normals(uploaded_file)
 
     st.subheader("Depth Map")
     st.image(depth_img, caption="Depth Map", use_column_width=True, clamp=True)
@@ -189,6 +212,8 @@ if uploaded_file is not None:
         st.image(rgbd_image, caption="RGB-D Image", use_column_width=True)
         
     if st.checkbox("Show 3D Point Cloud (Plotly)"):
+        point_cloud = depth_to_pointcloud(depth_img, img, f_x, f_y, c_x, c_y)
+        o3d.visualization.draw_geometries([point_cloud])
         depth_np = depth_img.astype(np.float32) / 255.0
         rgb_image_resized = cv2.resize(np.array(input_image), (depth_np.shape[1], depth_np.shape[0]))
         points, colors = depth_to_point_cloud(depth_np, rgb=rgb_image_resized)

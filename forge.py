@@ -109,7 +109,7 @@ def preprocess_image(image_path):
 
 
 
-image_path = "./test/test_image6.jpg"
+image_path = "./test/test_image7.jpg"
 img = cv2.imread(image_path)
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 input_image = preprocess_image(image_path)
