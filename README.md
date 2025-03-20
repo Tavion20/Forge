@@ -4,6 +4,13 @@ The demo of the project: https://www.youtube.com/watch?v=zkdbnCG7ACQ
 
 Our Paper: [Multiview-3D-Reconstruction](https://github.com/Abhishek-Aditya-bs/MultiView-3D-Reconstruction/blob/main/Reports/Final%20Paper.pdf)
 
+Repos/imp links:
+https://medium.com/@popovici.cristina211/3d-reconstruction-from-2d-images-using-openmvg-and-openmvs-b23bc7adb616
+https://github.com/Yashas120/Multiview-3D-Reconstruction?tab=readme-ov-file
+
+# For camera intrincs 
+https://exiftool.org/
+
 # Introduction
 
 <p align="center">
@@ -81,8 +88,7 @@ In our experiments, the Bundle Adjustment algorithm takes a very long time on la
 This work presents an implementation of the incremental SFM algorithm using linear triangulation, Perspective-n-Points algorithms to find the pose and reconstruct the image as a 3D sparse model. Additionally bundle adjustment was implemented to enhance the quality of the model. The quality of models generated with bundle adjustment is excellent. Sparse representation of structure from motion lacks any definitive quantitative metrics to compare different models. This model has some disadvantages like the images should be passed to the model in some order meaning the overlap of two images must be present to some extent. Any changes in order will break the model. Although sparse representation is a very important step in generating 3D models from 2D images, dense image reconstruction is required for all practical usage. This dense image can be generated using the Multi-View Stereo (MVS) algorithm. So the next step is to improve the current model and implemet MVS and get a more denser accurate 3D representations of the 2D images.
 
 
-# For camera intrincs 
-https://exiftool.org/
+
 
 # LICENSE
 MIT
